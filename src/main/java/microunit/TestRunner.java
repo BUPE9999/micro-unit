@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import org.tinylog.Logger;
 
 /**
  * Abstract base class for classes for running unit tests.
@@ -43,8 +44,9 @@ public abstract class TestRunner {
     public void runTestMethods() {
         try {
             TestResultAccumulator accumulator = new CountingTestResultAccumulator();
+            Logger.debug("Instantiated a new TestResultAccumulator instance.");
             for (Method method : getAnnotatedMethods(Test.class)) {
-                System.out.println(method);
+                Logger.debug("Testing method: {}", method);
                 Object instance = testClass.getConstructor().newInstance();
                 invokeTestMethod(method, instance, accumulator);
             }
